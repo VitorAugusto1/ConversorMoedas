@@ -54,6 +54,7 @@ public class ConversorMoedasApplication {
 
 		try {
 			geradorDeArquivo.salvarListaJson(conversoes);
+			System.out.println("Conversões salvas em arquivo JSON com sucesso!");
 		} catch (IOException e) {
 			System.out.println("Erro ao salvar o arquivo JSON: " + e.getMessage());
 		}
