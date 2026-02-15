@@ -40,3 +40,10 @@ maven-wrapper.properties
 
 ### Config do Projeto ###
 config.properties
+
+### META-INF ###
+META-INF/
+
+### Logs ###
+historico
+conversoes.log

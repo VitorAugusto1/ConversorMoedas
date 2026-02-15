@@ -18,7 +18,7 @@ public class Conversor {
         loadApiKey();
     }
     
-    private void loadApiKey() {
+private void loadApiKey() {
         Properties properties = new Properties();
         try (var fis = Conversor.class.getClassLoader().getResourceAsStream("config.properties")) {
             if (fis == null) {
@@ -26,13 +26,18 @@ public class Conversor {
             }
             properties.load(fis);
             apiKey = properties.getProperty("api.key");
+            if (apiKey == null || apiKey.isEmpty()) {
+                throw new RuntimeException("Chave da API não configurada em config.properties");
+            }
         } catch (IOException e) {
             throw new RuntimeException("Erro ao carregar a chave da API do arquivo", e);
         }
     }
 
     public ConversorEmPares converter(String moedaOrigem, String moedaDestino, double valor) {
-        String urlApi = "https://v6.exchangerate-api.com/v6/" + apiKey + "/latest/" + moedaOrigem + "/" + valor;
+        String urlApi = "https://v6.exchangerate-api.com/v6/" + apiKey +
+                "/pair/" + moedaOrigem + "/" + moedaDestino + "/" + valor;
+
 
         try {
             URI uri = URI.create(urlApi);
@@ -53,6 +58,7 @@ public class Conversor {
                     .create();
             ConversorEmPares conversorEmPares = gson.fromJson(response.body(), ConversorEmPares.class);
 
+
             System.out.println("-------------------------");
             System.out.printf("%-18s: %s\n","Moeda de origem", conversorEmPares.getMoedaOrigem());
             System.out.printf("%-18s: %s\n","Moeda de destino", conversorEmPares.getMoedaDestino());
@@ -62,6 +68,7 @@ public class Conversor {
             System.out.println("-------------------------");
 
             return conversorEmPares;
+
         } catch (IOException e) {
             throw new RuntimeException("Erro de IO ao acessar a API", e);
         } catch (InterruptedException e) {

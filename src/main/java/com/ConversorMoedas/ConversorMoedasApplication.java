@@ -4,8 +4,11 @@ import java.util.Scanner;
 
 import com.conversormoedas.api.Conversor;
 import com.conversormoedas.api.ConversorEmPares;
+import com.conversormoedas.util.GeradorDeArquivo;
+import com.conversormoedas.util.logs.RegistroDeLogs;
 
 import java.util.List;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ConversorMoedasApplication {
@@ -35,6 +38,8 @@ public class ConversorMoedasApplication {
 			ConversorEmPares conversao = conversor.converter(moedaOrigem, moedaDestino, valor);
 			conversoes.add(conversao);
 
+			RegistroDeLogs.resgistrarConversoes(conversoes);
+
 			System.out.print("Deseja realizar outra conversão? (1 - Sim, 2 - Não): ");
 			entrada = scanner.nextInt();
 
@@ -44,6 +49,14 @@ public class ConversorMoedasApplication {
 
 		scanner.close();
 		System.out.println("Encerrando programa...");
+
+		GeradorDeArquivo geradorDeArquivo = new GeradorDeArquivo();
+
+		try {
+			geradorDeArquivo.salvarListaJson(conversoes);
+		} catch (IOException e) {
+			System.out.println("Erro ao salvar o arquivo JSON: " + e.getMessage());
+		}
 
 	}
 }

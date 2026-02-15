@@ -10,7 +10,7 @@ public class ConversorEmPares {
     @SerializedName("conversion_rate")
     private double taxaCambio;
     @SerializedName("conversion_result")
-    private double resultadoConversao;
+    private double valorConvertido;
 
     public String getMoedaOrigem() {
         return moedaOrigem;
@@ -25,14 +25,8 @@ public class ConversorEmPares {
     }
 
     public double getResultadoConversao() {
-        return resultadoConversao;
+        return valorConvertido;
     }
 
-    public void setMoedaDestino(String moedaDestino) {
-        this.moedaDestino = moedaDestino;
-    }
 
-    public void setResultadoConversao(double resultadoConversao) {
-        this.resultadoConversao = resultadoConversao;
-    }
 }
